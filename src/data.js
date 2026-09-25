@@ -61,6 +61,7 @@ export const projects = [
     description: "A responsive storefront with animated product interactions and an EmailJS-powered order flow — the main frontend showcase of the MERN side of my work.",
     tags: ["Animation", "E-Commerce"],
     live: "https://ecommerce-site-tawny-mu.vercel.app/",
+    noScreenshot: true,
     featured: true,
   },
   {
@@ -70,6 +71,7 @@ export const projects = [
     description: "A multi-tenant school management product currently in active development — evolving from the standalone school website below into a reusable SaaS platform.",
     tags: ["In Progress", "Multi-Tenant"],
     live: "https://school-saas-platform-three.vercel.app/",
+    noScreenshot: true,
     featured: true,
   },
   {

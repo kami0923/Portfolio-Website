@@ -1,5 +1,33 @@
 import { projects } from '../data.js'
 
+// Generates a live screenshot of a deployed site via Microlink's free screenshot API.
+// No manual image uploads needed — it refreshes automatically whenever the live site changes.
+function screenshotUrl(liveUrl) {
+  const params = new URLSearchParams({
+    url: liveUrl,
+    screenshot: 'true',
+    meta: 'false',
+    embed: 'screenshot.url',
+    'viewport.width': '1280',
+    'viewport.height': '800',
+  })
+  return `https://api.microlink.io/?${params.toString()}`
+}
+
+function ProjectThumb({ live, title, skip }) {
+  if (!live || skip) return null
+  return (
+    <div className="project-card__media">
+      <img
+        src={screenshotUrl(live)}
+        alt={`${title} — live preview`}
+        loading="lazy"
+        onError={(e) => { e.currentTarget.parentElement.style.display = 'none' }}
+      />
+    </div>
+  )
+}
+
 export default function Projects() {
   const featured = projects.filter((p) => p.featured)
   const rest = projects.filter((p) => !p.featured)
@@ -14,6 +42,7 @@ export default function Projects() {
       <div className="project-grid">
         {featured.map((p) => (
           <article key={p.title} className="project-card">
+            <ProjectThumb live={p.live} title={p.title} skip={p.noScreenshot} />
             <div className="project-card__top">
               <div>
                 <h3>{p.title}</h3>
@@ -43,6 +72,15 @@ export default function Projects() {
       <div className="project-list">
         {rest.map((p) => (
           <div key={p.title} className="project-row">
+            {p.live && (
+              <img
+                className="project-row__thumb"
+                src={screenshotUrl(p.live)}
+                alt={`${p.title} — live preview`}
+                loading="lazy"
+                onError={(e) => { e.currentTarget.style.display = 'none' }}
+              />
+            )}
             <div className="project-row__info">
               <h4>{p.title}</h4>
               <p>{p.subtitle} — {p.stack.join(', ')}</p>
